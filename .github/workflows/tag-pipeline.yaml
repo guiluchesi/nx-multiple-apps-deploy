@@ -11,7 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Install dependencies
         run: npm install
 
@@ -24,5 +25,3 @@ jobs:
             git tag $tag HEAD
           done
           git push --tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
