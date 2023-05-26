@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-
+env:
+  BEFORE_SHA: ${{ github.event.before }}
 jobs:
   tag:
     runs-on: ubuntu-latest
@@ -18,7 +19,7 @@ jobs:
 
       - name: Tag affected projects
         run: |
-          for project in $(npx nx print-affected --base=origin/main --select=projects --plain | tr ',' ' '); do
+          for project in $(npx nx print-affected --base=$BEFORE_SHA --select=projects --plain | tr ',' ' '); do
             echo 'PROJECT': $project
             commit=$(git rev-parse --short HEAD)
             tag="$project-$commit"
