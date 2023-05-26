@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Tag affected projects
         run: |
           for project in $(npx nx print-affected --select=projects --plain); do
