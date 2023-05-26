@@ -17,8 +17,10 @@ jobs:
 
       - name: Tag affected projects
         run: |
-          for project in $(npx nx print-affected --base=main~1 --select=projects --plain | tr ',' ' '); do
-            echo $project
+          BASE_SHA=$(git rev-parse HEAD~1)
+          echo 'SHA': $BASE_SHA
+          for project in $(npx nx print-affected --base=$BASE_SHA --select=projects --plain | tr ',' ' '); do
+            echo 'PROJECT': $project
             commit=$(git rev-parse --short HEAD)
             tag="$project-$commit"
             git tag $tag HEAD
