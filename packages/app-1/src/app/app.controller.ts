@@ -16,9 +16,13 @@ export class AppController {
     return this.appService.getData();
   }
 
-
   @Get('/world-2')
   hello2() {
+    return this.appService.getData();
+  }
+
+  @Get('/world-3')
+  hello3() {
     return this.appService.getData();
   }
 }
