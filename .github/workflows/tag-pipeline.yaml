@@ -18,7 +18,7 @@ jobs:
       - name: Tag affected projects
         run: |
           for project in $(nx print-affected --base=origin/main~1 --select=projects --plain); do
-            git tag $project
+            git tag $project HEAD
           done
           git push --tags
         env:
