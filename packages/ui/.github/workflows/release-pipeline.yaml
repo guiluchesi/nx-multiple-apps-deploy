@@ -1,0 +1,24 @@
+name: Release Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'ui'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Release application
+        run: echo "Releasing UI application"

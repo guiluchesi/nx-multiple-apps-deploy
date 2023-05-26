@@ -1,0 +1,24 @@
+name: Tag affected Nx projects
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Tag affected projects
+        run: |
+          for project in $(nx print-affected --base=origin/main~1 --select=projects --plain); do
+            git tag $project
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
