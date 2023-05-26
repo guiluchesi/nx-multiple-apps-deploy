@@ -12,15 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Tag affected projects
         run: |
           for project in $(npx nx print-affected --select=projects --plain); do
             echo $project
             git tag -f $project HEAD
           done
-          git push --tags
+          git push --tags -f
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
