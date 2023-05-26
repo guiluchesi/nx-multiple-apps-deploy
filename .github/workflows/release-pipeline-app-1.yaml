@@ -3,7 +3,7 @@ name: Release Pipeline
 on:
   push:
     tags:
-      - 'app-1'
+      - app-1-*
 
 jobs:
   build:
