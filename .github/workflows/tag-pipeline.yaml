@@ -14,13 +14,14 @@ jobs:
         with:
           token: ${{ secrets.TOKEN }}
           fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
 
       - name: Install dependencies
         run: npm install
 
       - name: Tag affected projects
         run: |
-          for project in $(npx nx print-affected --select=projects --plain --base=$(git rev-parse main~1) | tr ',' ' '); do
+          for project in $(npx nx print-affected --select=projects --plain | tr ',' ' '); do
             echo 'PROJECT': $project
             commit=$(git rev-parse --short HEAD)
             tag="$project-$commit"
