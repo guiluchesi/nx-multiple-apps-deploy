@@ -40,4 +40,9 @@ export class AppController {
   hello6() {
     return this.appService.getData();
   }
+
+  @Get('/world-7')
+  hello7() {
+    return this.appService.getData();
+  }
 }
