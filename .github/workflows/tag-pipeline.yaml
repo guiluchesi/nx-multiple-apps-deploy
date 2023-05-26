@@ -17,8 +17,6 @@ jobs:
 
       - name: Tag affected projects
         run: |
-          BASE_SHA=$(git rev-parse HEAD~1)
-          echo 'SHA': $BASE_SHA
           for project in $(npx nx print-affected --select=projects --plain | tr ',' ' '); do
             echo 'PROJECT': $project
             commit=$(git rev-parse --short HEAD)
