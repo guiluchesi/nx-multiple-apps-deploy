@@ -15,4 +15,9 @@ export class AppController {
   hello() {
     return this.appService.getData();
   }
+
+  @Get('/world2')
+  hello2() {
+    return this.appService.getData();
+  }
 }
