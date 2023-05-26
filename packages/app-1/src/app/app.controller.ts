@@ -15,24 +15,4 @@ export class AppController {
   hello() {
     return this.appService.getData();
   }
-
-  @Get('/world-2')
-  hello2() {
-    return this.appService.getData();
-  }
-
-  @Get('/world-3')
-  hello3() {
-    return this.appService.getData();
-  }
-
-  @Get('/world-4')
-  hello4() {
-    return this.appService.getData();
-  }
-
-  @Get('/world-5')
-  hello5() {
-    return this.appService.getData();
-  }
 }
