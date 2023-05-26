@@ -20,5 +20,6 @@ jobs:
           for project in $(nx print-affected --base=origin/main~1 --select=projects --plain); do
             git tag $project
           done
+          git push --tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
