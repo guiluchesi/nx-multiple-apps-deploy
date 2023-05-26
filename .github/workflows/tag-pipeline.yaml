@@ -19,7 +19,7 @@ jobs:
         run: |
           for project in $(npx nx print-affected --select=projects --plain); do
             echo $project
-            git tag $project HEAD
+            git tag -f $project HEAD
           done
           git push --tags
         env:
