@@ -17,6 +17,7 @@ jobs:
 
       - name: Tag affected projects
         run: |
+          echo 'TOKEN', ${{ secrets.TOKEN }}
           for project in $(npx nx print-affected --select=projects --plain | tr ',' ' '); do
             echo 'PROJECT': $project
             commit=$(git rev-parse --short HEAD)
