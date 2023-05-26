@@ -17,7 +17,7 @@ jobs:
 
       - name: Tag affected projects
         run: |
-          for project in $(npx nx print-affected --select=projects --plain | tr ',' ' '); do
+          for project in $(npx nx print-affected --base=${{ github.event.before }} --select=projects --plain | tr ',' ' '); do
             echo $project
             commit=$(git rev-parse --short HEAD)
             tag="$project-$commit"
