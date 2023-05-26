@@ -27,5 +27,3 @@ jobs:
             git tag $tag HEAD
           done
           git push --tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
