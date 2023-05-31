@@ -24,6 +24,16 @@ jobs:
           echo "PROJECTS=$projects" >> $GITHUB_ENV
           echo "Projects: $projects"
           echo "Projects env: $PROJECTS"
+  double-check:
+    needs: define-affected-projects
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Testing variables
+        run: |
+          echo "needs: ${{needs.define-affected-projects.outputs.PROJECTS}}"
+          echo "pure var: $PROJECTS"
+          echo "env: ${{env.PROJECTS}}"
 
   ui:
     needs: define-affected-projects
