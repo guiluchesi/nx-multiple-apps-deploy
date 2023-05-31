@@ -22,7 +22,8 @@ jobs:
         run: |
           projects=$(npx nx print-affected --select=projects --plain)
           echo "PROJECTS=$projects" >> $GITHUB_ENV
-          echo "Projects: ${{env.PROJECTS}}"
+          echo "Projects: $projects"
+          echo "Projects env: ${{env.PROJECTS}}"
 
   ui:
     needs: define-affected-projects
