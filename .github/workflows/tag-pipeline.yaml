@@ -26,7 +26,7 @@ jobs:
 
   ui:
     needs: define-affected-projects
-    if: contains(env.PROJECTS, 'a')
+    if: contains('${{ env.PROJECTS }}', 'a')
     runs-on: ubuntu-latest
 
     steps:
@@ -35,7 +35,7 @@ jobs:
 
   app-1:
     needs: define-affected-projects
-    if: contains(env.PROJECTS, 'b')
+    if: contains('${{ env.PROJECTS }}', 'b')
     runs-on: ubuntu-latest
 
     steps:
