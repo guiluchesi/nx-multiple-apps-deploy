@@ -1,31 +1,43 @@
-name: Tag affected Nx projects
+name: Build and Test Affected Projects
 
 on:
   push:
     branches:
       - main
-env:
-  BEFORE_SHA: ${{ github.event.before }}
+
 jobs:
-  tag:
+  define-affected-projects:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set shas for affected projects
+        uses: nrwl/nx-set-shas@v3
 
       - name: Install dependencies
         run: npm install
 
-      - name: Tag affected projects
+      - name: Set affected projects env
         run: |
-          for project in $(npx nx print-affected --base=$BEFORE_SHA --select=projects --plain | tr ',' ' '); do
-            echo 'PROJECT': $project
-            commit=$(git rev-parse --short HEAD)
-            tag="$project-$commit"
-            git tag $tag HEAD
-          done
-          git push --tags
+          projects=$(nx print-affected --select=projects --plain)
+          echo "PROJECTS=$projects" >> $GITHUB_ENV
+
+  ui:
+    needs: define-affected-projects
+    if: contains(env.PROJECTS, 'a')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run UI job
+        run: echo "Running UI job"
+
+  app-1:
+    needs: define-affected-projects
+    if: contains(env.PROJECTS, 'b')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run API job
+        run: echo "Running API job"
