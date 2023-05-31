@@ -20,7 +20,7 @@ jobs:
 
       - name: Set affected projects env
         run: |
-          projects=$(nx print-affected --select=projects --plain)
+          projects=$(npx nx print-affected --select=projects --plain)
           echo "PROJECTS=$projects" >> $GITHUB_ENV
 
   ui:
