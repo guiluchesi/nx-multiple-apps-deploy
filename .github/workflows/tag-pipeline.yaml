@@ -21,9 +21,10 @@ jobs:
       - name: Set affected projects env
         run: |
           projects=$(npx nx print-affected --select=projects --plain)
-          echo "PROJECTS=$projects" >> $GITHUB_ENV
+          echo "PROJECTS=$projects" >> $GITHUB_OUTPUT
           echo "Projects: $projects"
           echo "Projects env: $PROJECTS"
+
   double-check:
     needs: define-affected-projects
     runs-on: ubuntu-latest
