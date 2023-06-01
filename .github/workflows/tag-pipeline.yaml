@@ -30,10 +30,14 @@ jobs:
 
       - name: Set affected projects env
         run: |
-          projects=$(npx nx print-affected --select=projects --plain | tr '\n' ' ')
-          echo "PROJECTS=$projects" >> "$GITHUB_ENV"
-          echo "Projects: $projects"
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          projects=$(npx nx print-affected --select=projects --plain)
+          echo "PROJECTS=$(npx nx print-affected --select=projects --plain)" >> "$GITHUB_ENV"
+          echo "PROJECTS_2<<$EOF" >> "$GITHUB_ENV"
+          echo "$(npx nx print-affected --select=projects --plain)" >> "$GITHUB_ENV"
+          echo "$EOF" >> "$GITHUB_ENV"
           echo "Projects env: $PROJECTS"
+          echo "Projects 2 env: $PROJECTS_2"
 
   double-check:
     needs: define-affected-projects
