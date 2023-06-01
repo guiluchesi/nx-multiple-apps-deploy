@@ -33,11 +33,15 @@ jobs:
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           projects=$(npx nx print-affected --select=projects --plain)
           echo "PROJECTS=$(npx nx print-affected --select=projects --plain)" >> "$GITHUB_ENV"
+          echo "PROJECTS_3=app-1" >> "$GITHUB_ENV"
+          echo "project_4=$projects" >> "$GITHUB_ENV"
           echo "PROJECTS_2<<$EOF" >> "$GITHUB_ENV"
           echo "$(npx nx print-affected --select=projects --plain)" >> "$GITHUB_ENV"
           echo "$EOF" >> "$GITHUB_ENV"
           echo "Projects env: $PROJECTS"
           echo "Projects 2 env: $PROJECTS_2"
+          echo "Projects 3 env: $PROJECTS_3"
+          echo "Projects 4 env: $projects_4"
 
   double-check:
     needs: define-affected-projects
