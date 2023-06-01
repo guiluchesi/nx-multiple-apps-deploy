@@ -8,7 +8,9 @@ on:
 jobs:
   define-affected-projects:
     runs-on: ubuntu-latest
-
+    outputs:
+      affected_projects: ${{ steps.step_one.outputs.affected_projects }}
+      PROJECTS: ${{ steps.step_one.outputs.PROJECTS }}
     steps:
       - uses: actions/checkout@v2
         with:
