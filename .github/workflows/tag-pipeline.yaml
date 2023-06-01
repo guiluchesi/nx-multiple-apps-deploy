@@ -22,35 +22,8 @@ jobs:
         id: step_one
         run: |
           projects=$(npx nx print-affected --select=projects --plain)
-          echo "action_state=yellow" >> "$GITHUB_ENV"
-          echo "project_9=app-1" >> "$GITHUB_ENV"
-          echo "project_8=$(npx nx print-affected --select=projects --plain)" >> "$GITHUB_ENV"
-          echo "project_7=$projects" >> "$GITHUB_ENV"
+          echo "affected_projects=$projects" >> "$GITHUB_ENV"
           echo "PROJECTS=$projects" >> "$GITHUB_ENV"
-
-      - name: Use the value
-        id: step_two
-        run: |
-          echo "${{ env.action_state }}"
-          echo "${{ env.project_9 }}"
-          echo "${{ env.project_8 }}"
-          echo "${{ env.project_7 }}"
-          echo "${{ env.PROJECTS }}"
-
-      - name: Set affected projects env
-        run: |
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          projects=$(npx nx print-affected --select=projects --plain)
-          echo "PROJECTS=$(npx nx print-affected --select=projects --plain)" >> "$GITHUB_ENV"
-          echo "PROJECTS_3=app-1" >> "$GITHUB_ENV"
-          echo "project_4=$projects" >> "$GITHUB_ENV"
-          echo "PROJECTS_2<<$EOF" >> "$GITHUB_ENV"
-          echo "$(npx nx print-affected --select=projects --plain)" >> "$GITHUB_ENV"
-          echo "$EOF" >> "$GITHUB_ENV"
-          echo "Projects env: $PROJECTS"
-          echo "Projects 2 env: $PROJECTS_2"
-          echo "Projects 3 env: $PROJECTS_3"
-          echo "Projects 4 env: $projects_4"
 
   double-check:
     needs: define-affected-projects
@@ -59,13 +32,12 @@ jobs:
     steps:
       - name: Testing variables
         run: |
-          echo "needs: ${{needs.define-affected-projects.outputs.PROJECTS}}"
-          echo "pure var: $PROJECTS"
           echo "env: ${{env.PROJECTS}}"
+          echo "env: ${{env.affected_projects}}"
 
   ui:
     needs: define-affected-projects
-    if: contains(needs.define-affected-projects.outputs.PROJECTS, 'ui')
+    if: contains(${{env.affected_projects}}", 'ui')
     runs-on: ubuntu-latest
 
     steps:
@@ -74,7 +46,7 @@ jobs:
 
   app-1:
     needs: define-affected-projects
-    if: contains(needs.define-affected-projects.outputs.PROJECTS, 'app-1')
+    if: contains(${{env.affected_projects}}", 'app-1')
     runs-on: ubuntu-latest
 
     steps:
