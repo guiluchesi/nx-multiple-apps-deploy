@@ -22,11 +22,15 @@ jobs:
         id: step_one
         run: |
           echo "action_state=yellow" >> "$GITHUB_ENV"
+          echo "project_9=app-1" >> "$GITHUB_ENV"
+          echo "project_8=$(npx nx print-affected --select=projects --plain)" >> "$GITHUB_ENV"
 
       - name: Use the value
         id: step_two
         run: |
           echo "${{ env.action_state }}"
+          echo "${{ env.project_9 }}"
+          echo "${{ env.project_8 }}"
 
       - name: Set affected projects env
         run: |
