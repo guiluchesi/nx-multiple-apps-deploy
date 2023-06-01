@@ -9,8 +9,7 @@ jobs:
   define-affected-projects:
     runs-on: ubuntu-latest
     outputs:
-      affected_projects: ${{ steps.step_one.outputs.affected_projects }}
-      PROJECTS: ${{ steps.step_one.outputs.PROJECTS }}
+      AFFECTED_PROJECTS: ${{ steps.step_one.outputs.AFFECTED_PROJECTS }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -20,32 +19,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Set the value
+      - name: Outputs affected projects
         id: step_one
         run: |
           projects=$(npx nx print-affected --select=projects --plain)
-          echo "affected_projects=$projects" >> "$GITHUB_OUTPUT"
-          echo "PROJECTS=$projects" >> "$GITHUB_OUTPUT"
-
-      - name: Use the value
-        id: step_two
-        run: |
-          echo "${{ steps.step_one.outputs.affected_projects }}"
-          echo "${{ steps.step_one.outputs.PROJECTS }}"
-
-  double-check:
-    needs: define-affected-projects
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Testing variables
-        run: |
-          echo "env: ${{needs.define-affected-projects.outputs.env.PROJECTS}}"
-          echo "env: ${{needs.define-affected-projects.outputs.env.affected_projects}}"
+          echo "AFFECTED_PROJECTS=$projects" >> "$GITHUB_OUTPUT"
 
   ui:
     needs: define-affected-projects
-    if: contains(needs.define-affected-projects.outputs.PROJECTS, 'ui')
+    if: contains(needs.define-affected-projects.outputs.AFFECTED_PROJECTS, 'ui')
     runs-on: ubuntu-latest
 
     steps:
@@ -54,7 +36,7 @@ jobs:
 
   app-1:
     needs: define-affected-projects
-    if: contains(needs.define-affected-projects.outputs.PROJECTS, 'app-1')
+    if: contains(needs.define-affected-projects.outputs.AFFECTED_PROJECTS, 'app-1')
     runs-on: ubuntu-latest
 
     steps:
