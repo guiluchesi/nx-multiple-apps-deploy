@@ -22,14 +22,14 @@ jobs:
         id: step_one
         run: |
           projects=$(npx nx print-affected --select=projects --plain)
-          echo "affected_projects=$projects" >> "$GITHUB_ENV"
-          echo "PROJECTS=$projects" >> "$GITHUB_ENV"
+          echo "affected_projects=$projects" >> "$GITHUB_OUTPUT"
+          echo "PROJECTS=$projects" >> "$GITHUB_OUTPUT"
 
       - name: Use the value
         id: step_two
         run: |
-          echo "${{ env.affected_projects }}"
-          echo "${{ env.PROJECTS }}"
+          echo "${{ steps.step_one.outputs.affected_projects }}"
+          echo "${{ steps.step_one.outputs.PROJECTS }}"
 
   double-check:
     needs: define-affected-projects
@@ -38,10 +38,8 @@ jobs:
     steps:
       - name: Testing variables
         run: |
-          echo "env: ${{env.PROJECTS}}"
-          echo "env: ${{env.affected_projects}}"
-          echo "${{ env.affected_projects }}"
-          echo "${{ env.PROJECTS }}"
+          echo "env: ${{needs.define-affected-projects.outputs.env.PROJECTS}}"
+          echo "env: ${{needs.define-affected-projects.outputs.env.affected_projects}}"
 
   ui:
     needs: define-affected-projects
